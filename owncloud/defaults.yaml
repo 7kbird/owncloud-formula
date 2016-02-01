@@ -1,0 +1,4 @@
+docker:
+  image: '7kbird/owncloud:latest'
+  docker_data_dir: '/owncloud_data'
+  docker_http_port: '80'

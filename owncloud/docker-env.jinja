@@ -1,0 +1,30 @@
+# vim: sts=2 ts=2 sw=2 et ai
+{% macro env_line(item, key, envname) -%}
+{% if key in item -%}
+- {{ envname }}: '{{ item.get(key) }}'
+{% endif -%}
+{% endmacro %}
+
+{% macro envs(docker) -%}
+{{ env_line(docker, 'admin_user', 'ADMIN_USER') }}
+{{ env_line(docker, 'admin_pass', 'ADMIN_PASS') }}
+{{ env_line(docker, 'default_language', 'OC_DEFAULT_LANGUAGE') }}
+{{ env_line(docker, 'default_app', 'OC_DEFAULT_APP') }}
+{{ env_line(docker, 'domain', 'OC_TRUSTED_DOMAINS') }}
+{{ env_line(docker, 'has_internet', 'OC_HAS_INTERNET') }}
+{{ env_line(docker, 'upload_max_filesize', 'OC_UPLOAD_MAX_FILESIZE') }}
+{% if 'database' in docker -%}
+{{ env_line(docker.database, 'type', 'DB_TYPE') }}
+{{ env_line(docker.database, 'host', 'DB_HOST') }}
+{{ env_line(docker.database, 'name', 'DB_NAME') }}
+{{ env_line(docker.database, 'user', 'DB_USER') }}
+{{ env_line(docker.database, 'pass', 'DB_PASS') }}
+{% endif %}
+{% if 'smtp' in docker -%}
+{{ env_line(docker.smtp, 'host', 'OC_SMTP_HOST') }}
+{{ env_line(docker.smtp, 'port', 'OC_SMTP_PORT') }}
+{{ env_line(docker.smtp, 'secure', 'OC_SMTP_SECURE') }}
+{{ env_line(docker.smtp, 'user', 'OC_SMTP_USER') }}
+{{ env_line(docker.smtp, 'pass', 'OC_SMTP_PASS') }}
+{% endif %}
+{% endmacro %}
